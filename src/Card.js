@@ -7,11 +7,9 @@ import styled from 'styled-components';
 import Stat from './Stat';
 
 const ImageContainer = styled.div.attrs({className: `fl w-third tl`})``;
-const Image = styled.img.attrs((props) => ({
-  alt: `${props.alt}`,
-  src: `${props.url}`,
+const Image = styled.img.attrs({
   className: `br-100 h4 w4 dib ba b--black-05 pa2`,
-}))``;
+})``;
 const Title = styled.h1.attrs({className: `f3 mb2`})``;
 const Description = styled.h2.attrs({className: `f5 mw5 fw4 gray mt3 mb0`})``;
 const StyledLink = styled(Link).attrs({
