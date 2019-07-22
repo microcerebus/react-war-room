@@ -1,9 +1,9 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 import React, {useState} from 'react';
-import useInfiniteScroll from './useInfiniteScroll';
-import Card from './Card';
-import ListItem from './ListItem';
+import useInfiniteScroll from './hooks/useInfiniteScroll';
+import Card from './components/Card';
+import ListItem from './components/ListItem';
 
 const Forks = (props) => {
   const {

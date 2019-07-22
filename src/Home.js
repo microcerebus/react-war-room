@@ -3,10 +3,10 @@
 /* eslint-disable no-unused-vars */
 
 import _ from 'lodash';
-import React, { Component } from 'react';
-import { GithubService } from './services/GithubService';
+import React, {Component} from 'react';
+import {GithubService} from './services/GithubService';
 import * as constants from './constants/constants';
-import Card from './Card';
+import Card from './components/Card';
 
 const githubService = new GithubService();
 export default class Home extends Component {
@@ -17,56 +17,56 @@ export default class Home extends Component {
     };
   }
 
-  getRepoData = (url) => {
+  getRepoData(url) {
     const repo = url.split('/').pop();
     githubService
-      .getRepoData(url)
-      .then((data) => {
-        const { repos } = this.state;
-        switch (repo) {
-          case 'react':
-            repos.push({ react: { ...data, ally: true } });
-            this.setState({ repos: repos });
-            break;
-          case 'angular':
-            repos.push({ angular: { ...data, ally: false } });
-            this.setState({ repos: repos });
-            break;
-          case 'vue':
-            repos.push({ vue: { ...data, ally: false } });
-            this.setState({ repos: repos });
-            break;
-          default:
-            repos.push({ repo: { ...data, ally: true } });
-            this.setState({ repos: repos });
-            break;
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+        .getRepoData(url)
+        .then((data) => {
+          const {repos} = this.state;
+          switch (repo) {
+            case 'react':
+              repos.push({react: {...data, ally: true}});
+              this.setState({repos: repos});
+              break;
+            case 'angular':
+              repos.push({angular: {...data, ally: false}});
+              this.setState({repos: repos});
+              break;
+            case 'vue':
+              repos.push({vue: {...data, ally: false}});
+              this.setState({repos: repos});
+              break;
+            default:
+              repos.push({repo: {...data, ally: true}});
+              this.setState({repos: repos});
+              break;
+          }
+        })
+        .catch((error) => console.log(error));
+  }
 
-  getPRData = (url) => {
+  getPRData(url) {
     const repo = url.split('/').pop();
     githubService
-      .getPRData(url)
-      .then((total_count) => {
-        switch (repo) {
-          case 'react':
-            this.setState({ reactPR: total_count });
-            break;
-          case 'angular':
-            this.setState({ angularPR: total_count });
-            break;
-          case 'vue':
-            this.setState({ vuePR: total_count });
-            break;
-          default:
-            this.setState({ PR: total_count });
-            break;
-        }
-      })
-      .catch((error) => console.log(error));
-  };
+        .getPRData(url)
+        .then((total_count) => {
+          switch (repo) {
+            case 'react':
+              this.setState({reactPR: total_count});
+              break;
+            case 'angular':
+              this.setState({angularPR: total_count});
+              break;
+            case 'vue':
+              this.setState({vuePR: total_count});
+              break;
+            default:
+              this.setState({PR: total_count});
+              break;
+          }
+        })
+        .catch((error) => console.log(error));
+  }
 
   componentDidMount() {
     this.getRepoData(`${constants.REACT_REPO}`);
@@ -79,7 +79,7 @@ export default class Home extends Component {
   }
 
   render() {
-    const { repos, reactPR, angularPR, vuePR } = this.state;
+    const {repos, reactPR, angularPR, vuePR} = this.state;
     return (
       repos.length === 3 &&
       _.map(repos, (repo, index) => {
