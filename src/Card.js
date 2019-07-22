@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 /* eslint-disable no-unused-vars */
 import React from 'react';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import Stat from './Stat';
@@ -13,17 +14,22 @@ const Image = styled.img.attrs((props) => ({
 }))``;
 const Title = styled.h1.attrs({className: `f3 mb2`})``;
 const Description = styled.h2.attrs({className: `f5 mw5 fw4 gray mt3 mb0`})``;
+const StyledLink = styled(Link).attrs({
+  className: `f4 mb4 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black`,
+})``;
 
-const Card = ({
-  avatarUrl,
-  starsCount,
-  openIssuesCount,
-  forksCount,
-  prCount,
-  repoTitle,
-  repoDescription,
-  ally,
-}) => {
+const Card = (props) => {
+  const {
+    avatarUrl,
+    starsCount,
+    openIssuesCount,
+    forksCount,
+    prCount,
+    repoTitle,
+    repoDescription,
+    ally,
+    showForks,
+  } = props || {};
   return (
     <article className="mw8 mb3 flex items-end bg-white br3 pa3-ns ba b--black-10">
       <ImageContainer>
@@ -41,13 +47,13 @@ const Card = ({
         >
           {ally ? '#ALLY' : '#ENEMY'}
         </h1>
-        <a
-          className="f4 mb4 grow no-underline br-pill ph3 pv2 mb2 dib white bg-black"
-          href={repoTitle.split('/')[1]}
-        >
-          Users who have forked this repo
-        </a>
-
+        {showForks && (
+          <StyledLink
+            to={{pathname: repoTitle.split('/')[1], cardProps: {...props}}}
+          >
+            Users who have forked this repo
+          </StyledLink>
+        )}
         <div className="cf">
           <Stat title="Stars" value={starsCount} />
           <Stat title="Open Issues" value={openIssuesCount} />
@@ -58,7 +64,5 @@ const Card = ({
     </article>
   );
 };
-
-// Card.propTypes = {};
 
 export default Card;
