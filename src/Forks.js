@@ -1,9 +1,15 @@
+/* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 import React, {useState} from 'react';
 import useInfiniteScroll from './hooks/useInfiniteScroll';
 import Card from './components/Card';
+import {Redirect} from 'react-router-dom';
+import * as constants from './constants/constants';
+import {GithubService} from './services/GithubService';
 import ListItem from './components/ListItem';
+
+const githubService = new GithubService();
 
 const Forks = (props) => {
   const {
@@ -17,20 +23,47 @@ const Forks = (props) => {
     ally,
   } = props.location.cardProps || {};
 
-  const [users, setUsers] = useState(
-      Array.from(Array(30).keys(), (n) => n + 1)
-  );
+  let page = 1;
+
+  const [redirect, setRedirect] = useState(false);
+
+  const [users, setUsers] = useState(fetchInitialUsers);
 
   const [isFetching, setIsFetching] = useInfiniteScroll(fetchUsers);
 
+  function fetchInitialUsers() {
+    if (repoTitle) {
+      const url = `${
+        constants.GITHUB_REPO_URL
+      }${repoTitle}/stargazers?page=${page}`;
+      githubService
+          .getStargazersData(url)
+          .then((data) => {
+            page += 1;
+            setUsers(data);
+          })
+          .catch((error) => console.log(error));
+    } else {
+      setTimeout(() => setRedirect(true), 0);
+    }
+  }
+
   function fetchUsers() {
-    setTimeout(() => {
-      setUsers((prevState) => [
-        ...prevState,
-        ...Array.from(Array(20).keys(), (n) => n + prevState.length + 1),
-      ]);
-      setIsFetching(false);
-    }, 2000);
+    if (repoTitle) {
+      const url = `${
+        constants.GITHUB_REPO_URL
+      }${repoTitle}/stargazers?page=${page}`;
+      githubService
+          .getStargazersData(url)
+          .then((data) => {
+            page += 1;
+            setUsers((prevState) => [...prevState, ...data]);
+            setIsFetching(false);
+          })
+          .catch((error) => console.log(error));
+    } else {
+      setTimeout(() => setRedirect(true), 0);
+    }
   }
 
   return (
@@ -38,6 +71,7 @@ const Forks = (props) => {
       <header className="App-header tj mt0">
         <h1>React War Room </h1>
       </header>
+      {redirect ? <Redirect to="/" /> : null}
       <Card
         showForks={false}
         ally={ally}
@@ -49,14 +83,15 @@ const Forks = (props) => {
         forksCount={forksCount}
         prCount={prCount}
       />
-      {users.map((user, index) => (
-        <ListItem
-          name={'John Doe'}
-          login={user}
-          avatarUrl={'http://mrmrs.github.io/photos/p/2.jpg'}
-          key={index}
-        />
-      ))}
+      {users &&
+        users.map(({login, avatar_url, html_url}, index) => (
+          <ListItem
+            login={login}
+            avatarUrl={avatar_url}
+            githubUrl={html_url}
+            key={index}
+          />
+        ))}
       {isFetching && 'Fetching more users...'}
     </div>
   );
