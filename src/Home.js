@@ -25,24 +25,27 @@ export default class Home extends Component {
           const {repos} = this.state;
           switch (repo) {
             case 'react':
-              repos.push({react: {...data, ally: true}});
-              this.setState({repos: repos});
+              this.updateRepos(repos, data, repo, true);
               break;
             case 'angular':
-              repos.push({angular: {...data, ally: false}});
-              this.setState({repos: repos});
+              this.updateRepos(repos, data, repo, false);
               break;
             case 'vue':
-              repos.push({vue: {...data, ally: false}});
-              this.setState({repos: repos});
+              this.updateRepos(repos, data, repo, false);
               break;
             default:
-              repos.push({repo: {...data, ally: true}});
-              this.setState({repos: repos});
+              this.updateRepos(repos, data, 'repo', true);
               break;
           }
         })
         .catch((error) => console.log(error));
+  }
+
+  updateRepos(repos, data, name, ally) {
+    const repo = {};
+    repo[name] = {...data, ally: ally};
+    repos.push(repo);
+    this.setState({repos: repos});
   }
 
   getPRData(url) {
