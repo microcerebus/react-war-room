@@ -12,25 +12,25 @@ const UserAvatarContainer = styled.div.attrs({
 const UserAvatar = styled.img.attrs({
   className: `ba b--black-10 db br2 v-mid w2 w3-ns h2 h3-ns`,
 })``;
-const UserInfoContainer = styled.div.attrs({className: `dtc v-mid pl3`})``;
-const FullName = styled.h1.attrs({
+const UserInfoContainer = styled.div.attrs({
+  className: `dtc mw4 tj v-mid pl4`,
+})``;
+const UserName = styled.h1.attrs({
   className: `f6 f5-ns fw6 lh-title black mv0`,
 })``;
-const UserName = styled.h2.attrs({className: `f6 fw4 mt0 mb0 black-60`})``;
 const GithubContainer = styled.div.attrs({className: `dtc v-mid`})``;
 const GithubForm = styled.form.attrs({className: `w-100 tr`})``;
 const GithubIcon = styled.a.attrs({
   className: `link near-black hover-silver dib h2 w2 mr3`,
 })``;
 
-const ListItem = ({name, login, githubUrl, avatarUrl}) => {
+const ListItem = ({login, githubUrl, avatarUrl}) => {
   return (
     <ListItemContainer>
       <UserAvatarContainer>
         <UserAvatar src={avatarUrl} />
       </UserAvatarContainer>
       <UserInfoContainer>
-        <FullName>{name}</FullName>
         <UserName>{login}</UserName>
       </UserInfoContainer>
       <GithubContainer>
