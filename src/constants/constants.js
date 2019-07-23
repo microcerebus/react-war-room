@@ -1,5 +1,5 @@
 // Insert your own github access token below
-export const TOKEN = '';
+export const TOKEN = '4a939fcc041e994f05dd4cab62b830d1c82cbc31';
 export const GITHUB_BASE_URL = 'https://api.github.com';
 
 export const REACT = 'facebook/react';
