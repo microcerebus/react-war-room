@@ -1,19 +1,13 @@
 /* eslint-disable camelcase */
 /* eslint-disable require-jsdoc */
 import axios from 'axios';
-import * as constants from '../constants/constants';
 import {map} from 'lodash';
 
 class GithubService {
   getRepoData(url) {
     return new Promise((resolve, reject) => {
       axios
-          .get(url, {
-            headers: {
-              'Authorization': `Bearer ${constants.TOKEN}`,
-              'Content-Type': 'application/json',
-            },
-          })
+          .get(url)
           .then((response) => {
             if (response && response.status === 200) {
               const {
@@ -43,12 +37,7 @@ class GithubService {
   getStargazersData(url) {
     return new Promise((resolve, reject) => {
       axios
-          .get(url, {
-            headers: {
-              'Authorization': `Bearer ${constants.TOKEN}`,
-              'Content-Type': 'application/json',
-            },
-          })
+          .get(url)
           .then((response) => {
             if (response && response.status === 200) {
               resolve(
@@ -68,12 +57,7 @@ class GithubService {
   getPRData(url) {
     return new Promise((resolve, reject) => {
       axios
-          .get(url, {
-            headers: {
-              'Authorization': `Bearer ${constants.TOKEN}`,
-              'Content-Type': 'application/json',
-            },
-          })
+          .get(url)
           .then((response) => {
             if (response && response.status === 200) {
               const {total_count} = response.data;
