@@ -2,6 +2,7 @@
 /* eslint-disable require-jsdoc */
 import axios from 'axios';
 import * as constants from '../constants/constants';
+import {map} from 'lodash';
 
 class GithubService {
   getRepoData(url) {
@@ -31,6 +32,31 @@ class GithubService {
                 description,
                 avatar_url,
               });
+            } else {
+              reject(new Error('Data not found'));
+            }
+          })
+          .catch((error) => reject(error.message));
+    });
+  }
+
+  getStargazersData(url) {
+    return new Promise((resolve, reject) => {
+      axios
+          .get(url, {
+            headers: {
+              'Authorization': `Bearer ${constants.TOKEN}`,
+              'Content-Type': 'application/json',
+            },
+          })
+          .then((response) => {
+            if (response && response.status === 200) {
+              resolve(
+                  map(response.data, (user) => {
+                    const {login, avatar_url, html_url} = user;
+                    return {login, avatar_url, html_url};
+                  })
+              );
             } else {
               reject(new Error('Data not found'));
             }
