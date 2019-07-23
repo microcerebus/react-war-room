@@ -2,7 +2,7 @@
 /* eslint-disable require-jsdoc */
 /* eslint-disable no-unused-vars */
 
-import _ from 'lodash';
+import {map} from 'lodash';
 import React, {Component} from 'react';
 import {GithubService} from './services/GithubService';
 import * as constants from './constants/constants';
@@ -82,7 +82,7 @@ export default class Home extends Component {
     const {repos, reactPR, angularPR, vuePR} = this.state;
     return (
       repos.length === 3 &&
-      _.map(repos, (repo, index) => {
+      map(repos, (repo, index) => {
         const {
           forks_count,
           open_issues_count,
